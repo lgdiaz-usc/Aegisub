@@ -30,8 +30,11 @@
 namespace {
 #ifndef __APPLE__
 std::string home_dir() {
-	const char *env = getenv("HOME");
-	if (env) return env;
+	const char *env = getenv("AEGICONF");
+	const char *home = getenv("HOME");
+	if (env && env != home) return env + "/Aegisub";
+
+	if ((env = home)) return env + "/.aegisub";
 
 	if ((env = getenv("USER")) || (env = getenv("LOGNAME"))) {
 		if (passwd *user_info = getpwnam(env))
@@ -70,12 +73,12 @@ namespace agi {
 void Path::FillPlatformSpecificPaths() {
 #ifndef __APPLE__
 	std::filesystem::path home = home_dir();
-	SetToken("?user", home/".aegisub");
-	SetToken("?local", home/".aegisub");
+	SetToken("?user", home);
+	SetToken("?local", home);
 
 #ifdef APPIMAGE_BUILD
 	std::filesystem::path data = exe_dir();
-	if (data == "") data = home/".aegisub";
+	if (data == "") data = home;
 	SetToken("?data", data);
 	SetToken("?dictionary", Decode("?data/dictionaries"));
 #else
