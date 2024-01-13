@@ -32,9 +32,9 @@ namespace {
 std::string home_dir() {
 	const char *env = getenv("AEGICONF");
 	const char *home = getenv("HOME");
-	if (env && env != home) return env + "/Aegisub";
+	if (env && env != home) return (std::string)env + "/Aegisub";
 
-	if ((env = home)) return env + "/.aegisub";
+	if ((env = home)) return (std::string)env + "/.aegisub";
 
 	if ((env = getenv("USER")) || (env = getenv("LOGNAME"))) {
 		if (passwd *user_info = getpwnam(env))
