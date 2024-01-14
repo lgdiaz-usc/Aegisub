@@ -38,7 +38,7 @@ std::string home_dir() {
 
 	if ((env = getenv("USER")) || (env = getenv("LOGNAME"))) {
 		if (passwd *user_info = getpwnam(env))
-			return user_info->pw_dir;
+			return (string)(user_info->pw_dir) + "/.aegisub";
 	}
 
 	throw agi::EnvironmentError("Could not get home directory. Make sure HOME is set.");
