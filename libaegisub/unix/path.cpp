@@ -32,7 +32,7 @@ namespace {
 std::string home_dir() {
 	const char *env = getenv("AEGICONF");
 	const char *home = getenv("HOME");
-	if (env && env != home) return (std::string)env + "/Aegisub";
+	if (env && *env != *home) return (std::string)env + "/Aegisub";
 
 	if ((env = home)) return (std::string)env + "/.aegisub";
 
